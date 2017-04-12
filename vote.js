@@ -14,26 +14,6 @@ var domStatus = {
 
 
 //初始化投票状态
-var initVoteStatus = function(){
-  
-};
-//初始化投票事件
-var initVoteEvent = function(){
-  
-};
-
-//初始化测一测
-var initGuess = function(){
-  
-};
-
-//初始化测一测
-var initGift = function(){
-  
-};
-
-
-
 // 初始化用户投票状态
 var initVoteStatus function(voteList){
   var _dom = null;
@@ -41,11 +21,37 @@ var initVoteStatus function(voteList){
     _dom = $('data-actid' + i);
     'undefined' != typeof vl[i]['join'] ? domStatus[0](_dom) : domStatus[1](_dom);
   }
+  initVoteEvent();
+};
+//初始化投票事件
+var initVoteEvent = function(){
   $('#voteList li').bind('click', function(){
-    if($(this).hasClass('on')){
-      domStatus[]
+    if($(this).data('join') != null && Number($(this).data('join')) != 1 && $('li.on').length <= 3){
+      $(this).toogleClass('on');
     }
-    $(this).addClass('on');
+  });
+  $('#vote').bind('click', function(){
+    //弹过成功框的标记，弹出过则不再弹
+    var hasShowTip = false;
+    //未投过票的才可以投
+    $('li.on[^data-join]').each(function(el){
+      zHttp.send({actid : $(el).data('actid')},function(json){
+        if(json.ret == 0){
+          if(!hasShowTip){
+            zMsg.show('投票成功');
+            $'([data-actid=' + $(el).data('actid') + ']').data('join'， 1)；
+          }
+          showTip = true;
+        }
+      });
+    });
+    
   });
 };
+
+//初始化测一测
+var initGuess = function(){
+  
+};
+
 
